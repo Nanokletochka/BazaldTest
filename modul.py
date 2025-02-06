@@ -17,7 +17,7 @@ def get_packages(branch: str):
         branch (str): branch name
 
     Returns:
-        str: json response object
+        dict: json response object
     """
 
     # Getting response from API
