@@ -5,6 +5,7 @@ The purpose of this project is to assess the professional skills of a candidate 
 - Task 2.1. All packages that are present in p10 but not in sisyphus.
 - Task 2.2. All packages that are present in sisyphus but not in p10.
 - Task 2.3. All packages whose version-release is greater in sisyphus than in p10.
+
 This needs to be done for each architecture supported by the branch.
 
 ## Project Status

@@ -7,16 +7,19 @@ api_url = "https://rdb.altlinux.org/api/"
 export_method = "export/branch_binary_packages/"
 
 
-def get_packages(branch: str):
+def get_packages(branch: str) -> dict:
     """
-    Get binary packages from branch.
+    Retrieves binary package information from a specified branch via API.
 
+
+    Fetches a JSON response containing binary package data from a specific branch
+    using the API endpoint defined by `api_url + export_method + branch`.
 
     Args:
-        branch (str): branch name
+        branch (str): The name of the branch to retrieve package information.
 
     Returns:
-        dict: json response object
+        dict: A dictionary representing the JSON response from the API.
     """
 
     # Getting response from API
