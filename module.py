@@ -164,7 +164,7 @@ def compare_rpm(pkg_1_json: dict, pkg_2_json: dict, limit: int = None) -> dict:
     key_fields = ["arch", "name"]
 
     # Dictionary to write results in format: {<arch type>: [<packages>]}
-    unique_pkgs = {}
+    pkgs = {}
 
     # Loop thought list of packages №1
     for i, pkg_1_elem in enumerate(pkgs_1):
@@ -181,9 +181,9 @@ def compare_rpm(pkg_1_json: dict, pkg_2_json: dict, limit: int = None) -> dict:
                 if comparator(pkg_1_elem, pkg_2_elem):
                     # Add package to dict
                     arch = pkg_1_elem["arch"]
-                    if arch not in unique_pkgs:
-                        unique_pkgs[arch] = []
-                    unique_pkgs[arch].append(pkg_1_elem)
+                    if arch not in pkgs:
+                        pkgs[arch] = []
+                    pkgs[arch].append(pkg_1_elem)
 
                 break
 
@@ -191,4 +191,4 @@ def compare_rpm(pkg_1_json: dict, pkg_2_json: dict, limit: int = None) -> dict:
         if (i + 1) % 100 == 0:
             print(f"- {i + 1}/{limit} packages processed")
 
-    return unique_pkgs
+    return pkgs
