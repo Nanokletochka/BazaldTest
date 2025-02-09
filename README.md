@@ -9,10 +9,6 @@ The purpose of this project is to assess the professional skills of a candidate 
 This needs to be done for each architecture supported by the branch.
 Provide main module with CLI.
 
-## Project Status
-The project is currently under development and is not the final version.
-As of now, tasks 1, 2, 2.1, 2.2, 2.3 and CLI module has been implemented.
-
 ## Getting Started
 - Install Python version 3+.
 - Install the "requests" library.
@@ -22,10 +18,26 @@ As of now, tasks 1, 2, 2.1, 2.2, 2.3 and CLI module has been implemented.
 ## Usage
 The file module.py contains the main logic of the program, and the file cli.py contains the CLI implementation for module.py.
 
-To run the program, use the command 'python cli.py <function_name> <first_branch_name> <second_branch_name> [--limit]'.
-Available function names are: 
-- 'existing' - compares packages from the first branch with packages from the second branch and returns a JSON structure containing packages from the first branch that do not exist in the second.
-The order of passing names for both branches is important;
-- 'rpm' - finds identical packages in both branches and returns a JSON structure containing those packages from the first branch where version-release is greater.
+To run the program, use the command ```python cli.py <function_name> <first_branch_name> <second_branch_name> [--limit]```.
 
-The optional '--limit' parameter controls the number of packages in first branch to be compared will all in the second branch.
+Available function names are: 
+- 'unique' - compares packages from the first branch with packages from the second branch and returns a JSON structure containing packages from the first branch that do not exist in the second. The order of passing names for both branches is important;
+- 'rpm' - finds identical packages in both branches and returns a JSON structure containing those packages from the first branch where version-release is greater.
+Optional params:
+- '--limit' parameter controls the number of packages in first branch to be compared will all in the second branch.
+
+Both "unique" and "rpm" functions return JSON strings in format:
+```
+{
+	"length": <num_of_packages>,
+	"packages": {
+		<architecture_type>: [
+				<packages>
+		],
+		<another_architecture_type>: [
+				<packages>
+		],
+		
+	}
+}
+```
