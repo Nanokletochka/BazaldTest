@@ -23,6 +23,7 @@ To run the program, use the command ```python cli.py <function_name> <first_bran
 Available function names are: 
 - 'unique' - compares packages from the first branch with packages from the second branch and returns a JSON structure containing packages from the first branch that do not exist in the second. The order of passing names for both branches is important;
 - 'rpm' - finds identical packages in both branches and returns a JSON structure containing those packages from the first branch where version-release is greater.
+
 Optional params:
 - '--limit' parameter controls the number of packages in first branch to be compared will all in the second branch.
 
