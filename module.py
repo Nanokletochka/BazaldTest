@@ -73,7 +73,7 @@ def compare_existing(pkg_1_json: dict, pkg_2_json: dict, limit: int = None) -> d
 
     # Set a limit
     if limit:
-        pkgs_1, pkgs_2 = pkgs_1[:limit], pkgs_2[:limit]
+        pkgs_1 = pkgs_1[:limit]
     else:
         limit = pkg_1_json['length']
 
@@ -162,7 +162,7 @@ def compare_rpm(pkg_1_json: dict, pkg_2_json: dict, limit: int = None) -> dict:
 
     # Set a limit
     if limit:
-        pkgs_1, pkgs_2 = pkgs_1[:limit], pkgs_2[:limit]
+        pkgs_1 = pkgs_1[:limit]
     else:
         limit = pkg_1_json['length']
 

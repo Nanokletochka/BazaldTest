@@ -21,7 +21,11 @@ As of now, tasks 1, 2, 2.1, 2.2, 2.3 and CLI module has been implemented.
 
 ## Usage
 The file module.py contains the main logic of the program, and the file cli.py contains the CLI implementation for module.py.
+
 To run the program, use the command 'python cli.py <function_name> <first_branch_name> <second_branch_name> [--limit]'.
-Available function names are: 'existing' - compares packages from the first branch with packages from the second branch and returns a JSON structure containing packages from the first branch that do not exist in the second.
-The order of passing names for both branches is important; 'rpm' - finds identical packages in both branches and returns a JSON structure containing those packages from the first branch where version-release is greater.
-[Warning] The optional '--limit' parameter is under development; do not use it.
+Available function names are: 
+- 'existing' - compares packages from the first branch with packages from the second branch and returns a JSON structure containing packages from the first branch that do not exist in the second.
+The order of passing names for both branches is important;
+- 'rpm' - finds identical packages in both branches and returns a JSON structure containing those packages from the first branch where version-release is greater.
+
+The optional '--limit' parameter controls the number of packages in first branch to be compared will all in the second branch.
