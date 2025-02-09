@@ -25,7 +25,12 @@ def get_packages(branch: str) -> dict:
     """
 
     # Getting response from API
-    response = requests.get(api_url + export_method + branch)
+    try:
+        response = requests.get(api_url + export_method + branch)
+    except:
+        raise Exception(
+            f"Connection to API denied."
+        )
 
     # Verifying status code
     if response.status_code != 200:
