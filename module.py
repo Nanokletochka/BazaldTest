@@ -1,5 +1,6 @@
 import requests
 from rpm_vercmp import vercmp
+import sys
 
 # API base url
 api_url = "https://rdb.altlinux.org/api/"
@@ -97,9 +98,9 @@ def compare_existing(pkg_1_json: dict, pkg_2_json: dict, limit: int = None) -> d
                 unique_pkgs[arch] = []
             unique_pkgs[arch].append(pkg_1_elem)
 
-        # [INFO]
+        # Progress information
         if (i + 1) % 100 == 0:
-            print(f"- {i + 1}/{limit} packages processed")
+            print(f"[INFO] {i + 1}/{limit} packages processed")
 
     return unique_pkgs
 
@@ -189,6 +190,6 @@ def compare_rpm(pkg_1_json: dict, pkg_2_json: dict, limit: int = None) -> dict:
 
         # Progress information
         if (i + 1) % 100 == 0:
-            print(f"- {i + 1}/{limit} packages processed")
+            print(f"[INFO] {i + 1}/{limit} packages processed")
 
     return pkgs
