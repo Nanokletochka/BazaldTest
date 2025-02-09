@@ -59,13 +59,12 @@ def compare_existing(pkg_1_json: dict, pkg_2_json: dict, limit: int = None) -> d
                             Generated using a function get_packages(). Represents the 'source' list.
         pkg_2_json (dict): A dictionary containing a list of binary packages under the key "packages".
                            Represents the 'target' list against which the first list is compared.
-        limit (int, optional):  Limits the number of packages to compare from each list.
+        limit (int, optional):  Limits the number of packages in pkg_1_json to be compared.
                               If None, all packages from pkg_1_json will be compared. Defaults to None.
 
     Returns:
         dict: A dictionary where keys are architecture types and values are lists of
             package dictionaries that are unique to the first package list (pkg_1_json).
-            Returns an empty dictionary if no unique packages are found.
     """
 
     # Extract list of packages out of json dict
@@ -80,8 +79,11 @@ def compare_existing(pkg_1_json: dict, pkg_2_json: dict, limit: int = None) -> d
     # Fields of packages metadata to compare
     key_fields = ["arch", "name", "epoch", "version", "release"]
 
-    # Dictionary to write results in format: {<arch type>: [<packages>]}
-    unique_pkgs = {}
+    # Number of packages in pkgs dict
+    num = 0
+
+    # Dictionary to write results in format: {"length": <num_of_packages>>, "packages": {<arch type>: [<packages>]}}
+    unique_pkgs = {"length": num, "packages": {}}
 
     # Loop thought list of packages №1
     for i, pkg_1_elem in enumerate(pkgs_1):
@@ -97,15 +99,21 @@ def compare_existing(pkg_1_json: dict, pkg_2_json: dict, limit: int = None) -> d
                 break
         else:
             # This section means that there no pkg_1_elem in pkgs_2
+            # Increase number of packages
+            num += 1
+            # Select arch type of package
             arch = pkg_1_elem["arch"]
-            if arch not in unique_pkgs:
-                # Create new list
-                unique_pkgs[arch] = []
-            unique_pkgs[arch].append(pkg_1_elem)
+            # Add package to dict
+            if arch not in unique_pkgs["packages"]:
+                unique_pkgs["packages"][arch] = []
+            unique_pkgs["packages"][arch].append(pkg_1_elem)
 
         # Progress information
         if (i + 1) % 100 == 0:
             print(f"[INFO] {i + 1}/{limit} packages processed")
+
+    # Add number of packages
+    unique_pkgs["length"] = num
 
     return unique_pkgs
 
@@ -148,13 +156,12 @@ def compare_rpm(pkg_1_json: dict, pkg_2_json: dict, limit: int = None) -> dict:
                             Generated using a function get_packages(). Represents the 'source' list.
         pkg_2_json (dict): A dictionary containing a list of binary packages under the key "packages".
                            Represents the 'target' list against which the first list is compared.
-        limit (int, optional):  Limits the number of packages to compare from each list.
+        limit (int, optional):  Limits the number of packages in pkg_1_json to be compared.
                               If None, all packages from pkg_1_json will be compared. Defaults to None.
 
     Returns:
         dict: A dictionary where keys are architecture types and values are lists of
-            package dictionaries. Returns an empty dictionary if there aren't newer versions
-            in package list №1 comparing to package list №2.
+            package dictionaries.
     """
 
     # Extract list of packages out of json dict
@@ -169,8 +176,11 @@ def compare_rpm(pkg_1_json: dict, pkg_2_json: dict, limit: int = None) -> dict:
     # Fields of packages metadata to compare
     key_fields = ["arch", "name"]
 
-    # Dictionary to write results in format: {<arch type>: [<packages>]}
-    pkgs = {}
+    # Number of packages in pkgs dict
+    num = 0
+
+    # Dictionary to write results in format: {"length": <num_of_packages>>, "packages": {<arch type>: [<packages>]}}
+    pkgs = {"length": num, "packages": {}}
 
     # Loop thought list of packages №1
     for i, pkg_1_elem in enumerate(pkgs_1):
@@ -185,16 +195,21 @@ def compare_rpm(pkg_1_json: dict, pkg_2_json: dict, limit: int = None) -> dict:
                 # This section means that pkg_1_elem equals to pkg_2_elem
                 # Compare versions using RPM comparing rules
                 if comparator(pkg_1_elem, pkg_2_elem):
+                    # Increase number of packages
+                    num += 1
                     # Add package to dict
                     arch = pkg_1_elem["arch"]
-                    if arch not in pkgs:
-                        pkgs[arch] = []
-                    pkgs[arch].append(pkg_1_elem)
+                    if arch not in pkgs["packages"]:
+                        pkgs["packages"][arch] = []
+                    pkgs["packages"][arch].append(pkg_1_elem)
 
                 break
 
         # Progress information
         if (i + 1) % 100 == 0:
             print(f"[INFO] {i + 1}/{limit} packages processed")
+
+    # Add number of packages
+    pkgs["length"] = num
 
     return pkgs
